@@ -1,23 +1,112 @@
-export const getTasks = (req, res) => {
-  res.json({ message: "Get Tasks API" });
+import Task from "../models/Task.js";
+
+// ======================================
+// GET ALL TASKS
+// ======================================
+
+export const getTasks = async (req, res) => {
+  try {
+    res.json({
+      message: "Get Tasks API",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
 };
 
-export const createTask = (req, res) => {
-  res.json({ message: "Create Task API" });
+// ======================================
+// CREATE TASK
+// ======================================
+
+export const createTask = async (req, res) => {
+  try {
+    const { title, description, priority, dueDate } = req.body;
+
+    // Validation
+    if (!title || !dueDate) {
+      return res.status(400).json({
+        message: "Title and due date are required",
+      });
+    }
+
+    const task = await Task.create({
+      title,
+      description,
+      priority,
+      dueDate,
+      user: req.user._id,
+    });
+
+    res.status(201).json(task);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
 };
 
-export const getTaskById = (req, res) => {
-  res.json({ message: "Get Single Task API" });
+// ======================================
+// GET SINGLE TASK
+// ======================================
+
+export const getTaskById = async (req, res) => {
+  try {
+    res.json({
+      message: "Get Single Task API",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
 };
 
-export const updateTask = (req, res) => {
-  res.json({ message: "Update Task API" });
+// ======================================
+// UPDATE TASK
+// ======================================
+
+export const updateTask = async (req, res) => {
+  try {
+    res.json({
+      message: "Update Task API",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
 };
 
-export const deleteTask = (req, res) => {
-  res.json({ message: "Delete Task API" });
+// ======================================
+// DELETE TASK
+// ======================================
+
+export const deleteTask = async (req, res) => {
+  try {
+    res.json({
+      message: "Delete Task API",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
 };
 
-export const updateTaskStatus = (req, res) => {
-  res.json({ message: "Update Task Status API" });
+// ======================================
+// UPDATE TASK STATUS
+// ======================================
+
+export const updateTaskStatus = async (req, res) => {
+  try {
+    res.json({
+      message: "Update Task Status API",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
 };
