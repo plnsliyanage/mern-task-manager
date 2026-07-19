@@ -1,7 +1,14 @@
+import TaskForm from "../components/TaskForm";
+import TaskList from "../components/TaskList";
+
 const Dashboard = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <h1 className="text-4xl font-bold">Dashboard</h1>
+    <div className="p-6">
+      <h1 className="text-3xl font-bold mb-6">Task Dashboard</h1>
+
+      <TaskForm />
+
+      <TaskList />
     </div>
   );
 };
