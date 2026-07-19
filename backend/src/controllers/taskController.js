@@ -198,11 +198,41 @@ export const deleteTask = async (req, res) => {
 // UPDATE TASK STATUS
 // ======================================
 
+// ======================================
+// UPDATE TASK STATUS
+// ======================================
+
 export const updateTaskStatus = async (req, res) => {
   try {
-    res.json({
-      message: "Update Task Status API",
-    });
+    const task = await Task.findById(req.params.id);
+
+    if (!task) {
+      return res.status(404).json({
+        message: "Task not found",
+      });
+    }
+
+    // Check ownership
+    if (!task.user.equals(req.user._id)) {
+      return res.status(403).json({
+        message: "Access denied",
+      });
+    }
+
+    const { status } = req.body;
+
+    // Validate status
+    if (!["pending", "completed"].includes(status)) {
+      return res.status(400).json({
+        message: "Status must be 'pending' or 'completed'",
+      });
+    }
+
+    task.status = status;
+
+    const updatedTask = await task.save();
+
+    res.status(200).json(updatedTask);
   } catch (error) {
     res.status(500).json({
       message: error.message,
