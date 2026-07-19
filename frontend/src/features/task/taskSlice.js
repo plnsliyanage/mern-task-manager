@@ -3,7 +3,7 @@ createSlice
 } from "@reduxjs/toolkit";
 
 
-const initialState = {
+const initialState={
 
     tasks:[],
 
@@ -15,75 +15,39 @@ const initialState = {
 
 
 
-const taskSlice = createSlice({
+const taskSlice=createSlice({
 
-    name:"tasks",
+name:"tasks",
 
-    initialState,
-
-    reducers:{
+initialState,
 
 
-        setTasks:(state,action)=>{
-
-            state.tasks = action.payload;
-
-        },
+reducers:{
 
 
-        addTask:(state,action)=>{
+addTask:(state,action)=>{
 
-            state.tasks.push(action.payload);
+    state.tasks.push(action.payload);
 
-        },
-
-
-        removeTask:(state,action)=>{
-
-            state.tasks =
-            state.tasks.filter(
-                task=>task._id !== action.payload
-            );
-
-        },
+},
 
 
-        updateTask:(state,action)=>{
+setTasks:(state,action)=>{
 
-            const index =
-            state.tasks.findIndex(
-                task=>task._id === action.payload._id
-            );
+    state.tasks=action.payload;
 
-
-            if(index !== -1){
-
-                state.tasks[index] =
-                action.payload;
-
-            }
-
-        },
+},
 
 
-        clearTasks:(state)=>{
-
-            state.tasks=[];
-
-        }
-
-
-    }
+}
 
 });
 
 
 export const {
-    setTasks,
-    addTask,
-    removeTask,
-    updateTask,
-    clearTasks
+
+addTask,
+setTasks
 
 }=taskSlice.actions;
 
