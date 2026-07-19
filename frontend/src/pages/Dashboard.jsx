@@ -1,14 +1,14 @@
 import { useEffect } from "react";
-
 import { useDispatch, useSelector } from "react-redux";
-
-import { getTasksAPI } from "../features/task/taskAPI";
-
-import { setTasks } from "../features/task/taskSlice";
+import toast from "react-hot-toast";
 
 import TaskForm from "../components/TaskForm";
-
+import SearchBar from "../components/SearchBar";
+import FilterBar from "../components/FilterBar";
 import TaskList from "../components/TaskList";
+
+import { getTasksAPI } from "../features/task/taskAPI";
+import { setTasks } from "../features/task/taskSlice";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -17,23 +17,37 @@ const Dashboard = () => {
 
   useEffect(() => {
     const loadTasks = async () => {
-      const data = await getTasksAPI(token);
-
-      dispatch(setTasks(data));
+      try {
+        const tasks = await getTasksAPI(token);
+        dispatch(setTasks(tasks));
+      } catch (error) {
+        console.error(error);
+        toast.error("Failed to load tasks");
+      }
     };
 
     if (token) {
       loadTasks();
     }
-  }, [token, dispatch]);
+  }, [dispatch, token]);
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-3xl font-bold mb-6">Task Dashboard</h1>
+    <div className="min-h-screen bg-gray-100">
+      <div className="max-w-5xl mx-auto p-6">
+        <h1 className="text-3xl font-bold text-center mb-8">Task Dashboard</h1>
 
-      <TaskForm />
+        {/* Create Task */}
+        <TaskForm />
 
-      <TaskList />
+        {/* Search */}
+        <SearchBar />
+
+        {/* Filter */}
+        <FilterBar />
+
+        {/* Task List */}
+        <TaskList />
+      </div>
     </div>
   );
 };
