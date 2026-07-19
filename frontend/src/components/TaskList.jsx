@@ -10,13 +10,9 @@ const TaskList = () => {
       <h2 className="text-xl font-bold mb-4">Your Tasks</h2>
 
       {tasks.length === 0 ? (
-        <p>No tasks available</p>
+        <p>No tasks found</p>
       ) : (
-        <div className="grid gap-4">
-          {tasks.map((task) => (
-            <TaskCard key={task._id} task={task} />
-          ))}
-        </div>
+        tasks.map((task) => <TaskCard key={task._id} task={task} />)
       )}
     </div>
   );

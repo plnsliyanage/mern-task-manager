@@ -1,65 +1,128 @@
 import {
-createSlice
+    createSlice
 } from "@reduxjs/toolkit";
 
 
 
-const initialState={
+const initialState = {
 
-tasks:[],
+    tasks: [],
 
-loading:false,
+    loading: false,
 
-error:null
+    error: null
 
 };
 
 
 
-const taskSlice=createSlice({
+const taskSlice = createSlice({
 
-name:"tasks",
+    name:"tasks",
 
-initialState,
-
-
-reducers:{
+    initialState,
 
 
-
-setTasks:(state,action)=>{
-
-state.tasks=action.payload;
-
-},
+    reducers:{
 
 
+        setTasks:(state,action)=>{
 
-addTask:(state,action)=>{
+            state.tasks = action.payload;
 
-state.tasks.push(action.payload);
-
-},
-
+        },
 
 
-setLoading:(state,action)=>{
+        addTask:(state,action)=>{
 
-state.loading=action.payload;
+            state.tasks.push(action.payload);
 
-},
-
-
-
-setError:(state,action)=>{
-
-state.error=action.payload;
-
-}
+        },
 
 
+        updateTask:(state,action)=>{
 
-}
+
+            const index =
+            state.tasks.findIndex(
+
+                task =>
+                task._id === action.payload._id
+
+            );
+
+
+            if(index !== -1){
+
+                state.tasks[index] =
+                action.payload;
+
+            }
+
+
+        },
+
+
+
+        removeTask:(state,action)=>{
+
+
+            state.tasks =
+            state.tasks.filter(
+
+                task =>
+                task._id !== action.payload
+
+            );
+
+
+        },
+
+
+
+        updateStatus:(state,action)=>{
+
+
+            const index =
+            state.tasks.findIndex(
+
+                task =>
+                task._id === action.payload._id
+
+            );
+
+
+            if(index !== -1){
+
+                state.tasks[index].status =
+                action.payload.status;
+
+            }
+
+
+        },
+
+
+
+        setLoading:(state,action)=>{
+
+            state.loading =
+            action.payload;
+
+        },
+
+
+
+        setError:(state,action)=>{
+
+            state.error =
+            action.payload;
+
+        }
+
+
+
+    }
 
 
 });
@@ -68,16 +131,21 @@ state.error=action.payload;
 
 export const {
 
-setTasks,
+    setTasks,
 
-addTask,
+    addTask,
 
-setLoading,
+    updateTask,
 
-setError
+    removeTask,
 
+    updateStatus,
 
-}=taskSlice.actions;
+    setLoading,
+
+    setError
+
+} = taskSlice.actions;
 
 
 

@@ -2,13 +2,13 @@ import { useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import TaskForm from "../components/TaskForm";
-
-import TaskList from "../components/TaskList";
-
 import { getTasksAPI } from "../features/task/taskAPI";
 
 import { setTasks } from "../features/task/taskSlice";
+
+import TaskForm from "../components/TaskForm";
+
+import TaskList from "../components/TaskList";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -16,14 +16,14 @@ const Dashboard = () => {
   const { token } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    const fetchTasks = async () => {
+    const loadTasks = async () => {
       const data = await getTasksAPI(token);
 
       dispatch(setTasks(data));
     };
 
     if (token) {
-      fetchTasks();
+      loadTasks();
     }
   }, [token, dispatch]);
 
