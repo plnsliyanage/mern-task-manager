@@ -2,7 +2,8 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import {
   registerUser,
-  loginUser
+  loginUser,
+  getCurrentUser
 } from "./authAPI";
 
 
@@ -10,6 +11,7 @@ import {
 
 export const register = createAsyncThunk(
   "auth/register",
+
   async(userData,{rejectWithValue})=>{
 
     try{
@@ -22,6 +24,7 @@ export const register = createAsyncThunk(
       );
 
       return data;
+
 
     }catch(error){
 
@@ -70,15 +73,42 @@ export const login = createAsyncThunk(
 
 
 
+// Get current user
+
+export const fetchUser = createAsyncThunk(
+  "auth/fetchUser",
+
+  async(_, {rejectWithValue})=>{
+
+    try{
+
+      const user = await getCurrentUser();
+
+      return user;
+
+
+    }catch(error){
+
+      return rejectWithValue(
+        error.response.data.message
+      );
+
+    }
+
+  }
+);
+
+
+
 const initialState={
 
- user:null,
+  user:null,
 
- token:localStorage.getItem("token"),
+  token:localStorage.getItem("token"),
 
- loading:false,
+  loading:false,
 
- error:null
+  error:null
 
 };
 
@@ -115,7 +145,6 @@ extraReducers:(builder)=>{
 builder
 
 
-
 // Register
 
 .addCase(register.pending,(state)=>{
@@ -148,7 +177,6 @@ state.error=action.payload;
 
 // Login
 
-
 .addCase(login.pending,(state)=>{
 
 state.loading=true;
@@ -174,6 +202,27 @@ state.token=action.payload.token;
 state.loading=false;
 
 state.error=action.payload;
+
+})
+
+
+
+// Fetch user
+
+.addCase(fetchUser.fulfilled,(state,action)=>{
+
+state.user=action.payload;
+
+})
+
+
+.addCase(fetchUser.rejected,(state)=>{
+
+state.user=null;
+
+state.token=null;
+
+localStorage.removeItem("token");
 
 });
 
