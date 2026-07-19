@@ -5,26 +5,17 @@ node_modules/
 .env
 
 # Logs
+logs
 *.log
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 
-# Build files
+# Build folders
 dist/
 build/
 
-# Coverage reports
-coverage/
-
-# Temporary files
-tmp/
-temp/
-
-# IDE files
-.vscode/
-.idea/
-
-# OS generated files
+# OS files
 .DS_Store
 Thumbs.db
+
+# VS Code
+.vscode/
