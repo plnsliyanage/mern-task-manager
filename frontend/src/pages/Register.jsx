@@ -1,11 +1,15 @@
 import { useState } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
+
 import { register } from "../features/auth/authSlice";
+
+import toast from "react-hot-toast";
 
 const Register = () => {
   const dispatch = useDispatch();
 
-  const { loading, error } = useSelector((state) => state.auth);
+  const { loading } = useSelector((state) => state.auth);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -24,7 +28,13 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(register(formData));
+    dispatch(register(formData)).then((result) => {
+      if (result.meta.requestStatus === "fulfilled") {
+        toast.success("Account created successfully");
+      } else {
+        toast.error(result.payload || "Registration failed");
+      }
+    });
   };
 
   return (
@@ -33,43 +43,41 @@ const Register = () => {
         onSubmit={handleSubmit}
         className="bg-white p-8 rounded-lg shadow-md w-96"
       >
-        <h1 className="text-3xl font-bold mb-6 text-center">Register</h1>
+        <h1 className="text-3xl font-bold text-center mb-6">Register</h1>
 
         <input
-          className="w-full border p-2 mb-3 rounded"
           type="text"
           name="name"
           placeholder="Name"
           value={formData.name}
           onChange={handleChange}
+          className="w-full border p-2 mb-3 rounded"
         />
 
         <input
-          className="w-full border p-2 mb-3 rounded"
           type="email"
           name="email"
           placeholder="Email"
           value={formData.email}
           onChange={handleChange}
+          className="w-full border p-2 mb-3 rounded"
         />
 
         <input
-          className="w-full border p-2 mb-3 rounded"
           type="password"
           name="password"
           placeholder="Password"
           value={formData.password}
           onChange={handleChange}
+          className="w-full border p-2 mb-3 rounded"
         />
 
         <button
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
           disabled={loading}
+          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
         >
           {loading ? "Creating..." : "Register"}
         </button>
-
-        {error && <p className="text-red-500 mt-3">{error}</p>}
       </form>
     </div>
   );

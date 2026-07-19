@@ -6,12 +6,14 @@ import { login } from "../features/auth/authSlice";
 
 import { useNavigate } from "react-router-dom";
 
+import toast from "react-hot-toast";
+
 const Login = () => {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
-  const { loading, error } = useSelector((state) => state.auth);
+  const { loading } = useSelector((state) => state.auth);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -31,7 +33,11 @@ const Login = () => {
 
     dispatch(login(formData)).then((result) => {
       if (result.meta.requestStatus === "fulfilled") {
+        toast.success("Login successful");
+
         navigate("/dashboard");
+      } else {
+        toast.error(result.payload || "Login failed");
       }
     });
   };
@@ -42,24 +48,24 @@ const Login = () => {
         onSubmit={handleSubmit}
         className="bg-white p-8 rounded-lg shadow-md w-96"
       >
-        <h1 className="text-3xl font-bold mb-6 text-center">Login</h1>
+        <h1 className="text-3xl font-bold text-center mb-6">Login</h1>
 
         <input
           type="email"
           name="email"
           placeholder="Email"
-          className="w-full border p-2 mb-4 rounded"
           value={formData.email}
           onChange={handleChange}
+          className="w-full border p-2 mb-3 rounded"
         />
 
         <input
           type="password"
           name="password"
           placeholder="Password"
-          className="w-full border p-2 mb-4 rounded"
           value={formData.password}
           onChange={handleChange}
+          className="w-full border p-2 mb-3 rounded"
         />
 
         <button
@@ -68,8 +74,6 @@ const Login = () => {
         >
           {loading ? "Logging in..." : "Login"}
         </button>
-
-        {error && <p className="text-red-500 mt-3">{error}</p>}
       </form>
     </div>
   );
