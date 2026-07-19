@@ -1,54 +1,116 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { registerUser } from "./authAPI";
+
+
+// Register async action
+
+export const register = createAsyncThunk(
+  "auth/register",
+  async(userData, {rejectWithValue})=>{
+
+    try{
+
+      const data = await registerUser(userData);
+
+      localStorage.setItem(
+        "token",
+        data.token
+      );
+
+      return data;
+
+    }catch(error){
+
+      return rejectWithValue(
+        error.response.data.message
+      );
+
+    }
+
+  }
+);
+
+
 
 const initialState = {
-  user: null,
-  token: localStorage.getItem("token") || null,
-  isAuthenticated: false,
-  loading: false,
-  error: null,
+
+  user:null,
+
+  token:localStorage.getItem("token"),
+
+  loading:false,
+
+  error:null,
+
 };
 
+
 const authSlice = createSlice({
-  name: "auth",
-  initialState,
 
-  reducers: {
-    loginStart: (state) => {
-      state.loading = true;
-      state.error = null;
-    },
+name:"auth",
 
-    loginSuccess: (state, action) => {
-      state.loading = false;
-      state.user = action.payload.user;
-      state.token = action.payload.token;
-      state.isAuthenticated = true;
+initialState,
 
-      localStorage.setItem("token", action.payload.token);
-    },
 
-    loginFailure: (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
-    },
+reducers:{
 
-    logout: (state) => {
-      state.user = null;
-      state.token = null;
-      state.isAuthenticated = false;
-      state.loading = false;
-      state.error = null;
 
-      localStorage.removeItem("token");
-    },
-  },
+logout:(state)=>{
+
+state.user=null;
+
+state.token=null;
+
+localStorage.removeItem("token");
+
+}
+
+
+},
+
+
+extraReducers:(builder)=>{
+
+
+builder
+
+
+.addCase(register.pending,(state)=>{
+
+state.loading=true;
+
+state.error=null;
+
+})
+
+
+.addCase(register.fulfilled,(state,action)=>{
+
+state.loading=false;
+
+state.user=action.payload;
+
+state.token=action.payload.token;
+
+})
+
+
+.addCase(register.rejected,(state,action)=>{
+
+state.loading=false;
+
+state.error=action.payload;
+
+})
+
+
+}
+
+
 });
 
-export const {
-  loginStart,
-  loginSuccess,
-  loginFailure,
-  logout,
-} = authSlice.actions;
+
+export const {logout}=authSlice.actions;
+
 
 export default authSlice.reducer;
