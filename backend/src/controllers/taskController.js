@@ -53,15 +53,41 @@ export const createTask = async (req, res) => {
 // ======================================
 
 export const getTaskById = async (req, res) => {
-  try {
-    res.json({
-      message: "Get Single Task API",
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    });
-  }
+
+    try {
+
+        const task = await Task.findById(req.params.id);
+
+        if (!task) {
+
+            return res.status(404).json({
+                message: "Task not found"
+            });
+
+        }
+
+        // Check ownership
+
+        if (!task.user.equals(req.user._id)) {
+
+            return res.status(403).json({
+                message: "Access denied"
+            });
+
+        }
+
+        res.status(200).json(task);
+
+    }
+
+    catch (error) {
+
+        res.status(500).json({
+            message: error.message
+        });
+
+    }
+
 };
 
 // ======================================
