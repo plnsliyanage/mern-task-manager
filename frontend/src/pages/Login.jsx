@@ -1,9 +1,18 @@
+import { useEffect } from "react";
+import API from "../services/axios";
+
 const Login = () => {
-  return (
-    <div className="flex justify-center items-center min-h-screen">
-      <h1 className="text-4xl font-bold">Login Page</h1>
-    </div>
-  );
+  useEffect(() => {
+    API.get("/auth/me")
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
+
+  return <div>Login Page</div>;
 };
 
 export default Login;
