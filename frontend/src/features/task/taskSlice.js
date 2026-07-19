@@ -3,13 +3,14 @@ createSlice
 } from "@reduxjs/toolkit";
 
 
+
 const initialState={
 
-    tasks:[],
+tasks:[],
 
-    loading:false,
+loading:false,
 
-    error:null
+error:null
 
 };
 
@@ -25,31 +26,59 @@ initialState,
 reducers:{
 
 
-addTask:(state,action)=>{
-
-    state.tasks.push(action.payload);
-
-},
-
 
 setTasks:(state,action)=>{
 
-    state.tasks=action.payload;
+state.tasks=action.payload;
 
 },
+
+
+
+addTask:(state,action)=>{
+
+state.tasks.push(action.payload);
+
+},
+
+
+
+setLoading:(state,action)=>{
+
+state.loading=action.payload;
+
+},
+
+
+
+setError:(state,action)=>{
+
+state.error=action.payload;
+
+}
+
 
 
 }
 
+
 });
+
 
 
 export const {
 
+setTasks,
+
 addTask,
-setTasks
+
+setLoading,
+
+setError
+
 
 }=taskSlice.actions;
+
 
 
 export default taskSlice.reducer;
