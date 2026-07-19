@@ -1,7 +1,7 @@
 const Dashboard = () => {
   return (
-    <div>
-      <h1>Dashboard</h1>
+    <div className="flex justify-center items-center min-h-screen">
+      <h1 className="text-4xl font-bold">Dashboard</h1>
     </div>
   );
 };
