@@ -95,15 +95,57 @@ export const getTaskById = async (req, res) => {
 // ======================================
 
 export const updateTask = async (req, res) => {
-  try {
-    res.json({
-      message: "Update Task API",
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    });
-  }
+
+    try {
+
+        const task = await Task.findById(req.params.id);
+
+        if (!task) {
+
+            return res.status(404).json({
+                message: "Task not found"
+            });
+
+        }
+
+        // Check ownership
+
+        if (!task.user.equals(req.user._id)) {
+
+            return res.status(403).json({
+                message: "Access denied"
+            });
+
+        }
+
+        const {
+            title,
+            description,
+            priority,
+            dueDate,
+            status
+        } = req.body;
+
+        task.title = title ?? task.title;
+        task.description = description ?? task.description;
+        task.priority = priority ?? task.priority;
+        task.dueDate = dueDate ?? task.dueDate;
+        task.status = status ?? task.status;
+
+        const updatedTask = await task.save();
+
+        res.status(200).json(updatedTask);
+
+    }
+
+    catch (error) {
+
+        res.status(500).json({
+            message: error.message
+        });
+
+    }
+
 };
 
 // ======================================
