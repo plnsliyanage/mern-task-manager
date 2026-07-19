@@ -1,14 +1,16 @@
 import Task from "../models/Task.js";
 
 // ======================================
-// GET ALL TASKS
+// GET ALL TASKS (ONLY LOGGED-IN USER)
 // ======================================
 
 export const getTasks = async (req, res) => {
   try {
-    res.json({
-      message: "Get Tasks API",
-    });
+    const tasks = await Task.find({
+      user: req.user._id,
+    }).sort({ createdAt: -1 });
+
+    res.json(tasks);
   } catch (error) {
     res.status(500).json({
       message: error.message,
@@ -24,7 +26,6 @@ export const createTask = async (req, res) => {
   try {
     const { title, description, priority, dueDate } = req.body;
 
-    // Validation
     if (!title || !dueDate) {
       return res.status(400).json({
         message: "Title and due date are required",
