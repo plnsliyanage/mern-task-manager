@@ -6,7 +6,7 @@ This application allows users to register, login, and securely manage their own 
 
 ---
 
-# 🚀 Live Demo
+#  Live Demo
 
 ## Frontend
 
@@ -22,7 +22,7 @@ https://mern-task-manager-backend-nd2p.onrender.com
 
 ---
 
-# ✨ Features
+#  Features
 
 ## Authentication
 
@@ -69,7 +69,7 @@ Each task contains:
 
 ---
 
-# 🛠️ Technologies Used
+#  Technologies Used
 
 
 ## Frontend
@@ -99,7 +99,7 @@ Each task contains:
 
 ---
 
-# 📂 Project Structure
+#  Project Structure
 
 ```
 mern-task-manager
@@ -138,7 +138,7 @@ mern-task-manager
 
 ---
 
-# ⚙️ Installation and Setup
+#  Installation and Setup
 
 
 ## Requirements
@@ -434,7 +434,7 @@ Example:
 
 ---
 
-# ⭐ Bonus Features Implemented
+#  Bonus Features Implemented
 
 
 ## Search
@@ -517,7 +517,7 @@ The application has been tested for:
 
 ---
 
-# 👩‍💻 Author
+#  Author
 
 
 **Nimna Liyanage**
