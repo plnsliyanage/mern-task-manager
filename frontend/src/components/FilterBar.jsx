@@ -10,14 +10,20 @@ const FilterBar = () => {
   const buttons = ["all", "completed", "pending"];
 
   return (
-    <div className="flex gap-3 mb-6">
+    <div className="flex flex-wrap gap-3 mb-6">
       {buttons.map((button) => (
         <button
           key={button}
           onClick={() => dispatch(setFilter(button))}
-          className={`px-4 py-2 rounded capitalize 
+          className={`px-6 py-2 rounded-lg font-medium capitalize transition duration-300 border
 
-${filter === button ? "bg-blue-600 text-white" : "bg-gray-200"}`}
+          ${
+            filter === button
+              ? "bg-blue-950 text-white border-blue-950 shadow-md"
+              : "bg-white text-blue-950 border-blue-200 hover:bg-blue-50"
+          }
+
+          `}
         >
           {button}
         </button>

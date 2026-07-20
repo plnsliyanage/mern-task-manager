@@ -98,28 +98,32 @@ const TaskCard = ({ task }) => {
   };
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-5">
+    <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
       {edit ? (
         <div>
+          <h3 className="text-xl font-semibold text-blue-950 mb-4">
+            Edit Task
+          </h3>
+
           <input
             name="title"
             value={data.title}
             onChange={handleChange}
-            className="border p-2 w-full mb-2"
+            className="w-full border border-gray-300 rounded-lg p-3 mb-3 focus:outline-none focus:ring-2 focus:ring-blue-950"
           />
 
           <textarea
             name="description"
             value={data.description}
             onChange={handleChange}
-            className="border p-2 w-full mb-2"
+            className="w-full border border-gray-300 rounded-lg p-3 mb-3 focus:outline-none focus:ring-2 focus:ring-blue-950"
           />
 
           <select
             name="priority"
             value={data.priority}
             onChange={handleChange}
-            className="border p-2 w-full mb-2"
+            className="w-full border border-gray-300 rounded-lg p-3 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-950"
           >
             <option value="low">Low</option>
 
@@ -128,47 +132,74 @@ const TaskCard = ({ task }) => {
             <option value="high">High</option>
           </select>
 
-          <button
-            onClick={handleUpdate}
-            className="bg-green-600 text-white px-4 py-2 rounded"
-          >
-            Save
-          </button>
+          <div className="flex gap-3">
+            <button
+              onClick={handleUpdate}
+              className="bg-blue-950 text-white px-5 py-2 rounded-lg hover:bg-blue-900 transition"
+            >
+              Save Changes
+            </button>
+
+            <button
+              onClick={() => setEdit(false)}
+              className="bg-gray-200 text-gray-700 px-5 py-2 rounded-lg hover:bg-gray-300 transition"
+            >
+              Cancel
+            </button>
+          </div>
         </div>
       ) : (
         <div>
-          <h2 className="text-xl font-bold">{task.title}</h2>
+          {/* Title */}
 
-          <p>{task.description}</p>
+          <h2 className="text-2xl font-bold text-blue-950 mb-2">
+            {task.title}
+          </h2>
 
-          <p>
-            Priority:
-            {task.priority}
-          </p>
+          <p className="text-gray-600 mb-4">{task.description}</p>
 
-          <p>
-            Status:
-            {task.status}
-          </p>
+          {/* Details */}
 
-          <div className="flex gap-3 mt-4">
+          <div className="space-y-2 text-gray-700">
+            <p>
+              <span className="font-semibold text-blue-950">Priority:</span>{" "}
+              {task.priority}
+            </p>
+
+            <p>
+              <span className="font-semibold text-blue-950">Status:</span>{" "}
+              <span
+                className={
+                  task.status === "completed"
+                    ? "text-green-600 font-semibold"
+                    : "text-orange-600 font-semibold"
+                }
+              >
+                {task.status}
+              </span>
+            </p>
+          </div>
+
+          {/* Buttons */}
+
+          <div className="flex flex-wrap gap-3 mt-6">
             <button
               onClick={() => setEdit(true)}
-              className="bg-blue-600 text-white px-3 py-2 rounded"
+              className="bg-blue-950 text-white px-5 py-2 rounded-lg hover:bg-blue-900 transition"
             >
               Edit
             </button>
 
             <button
               onClick={handleDelete}
-              className="bg-red-600 text-white px-3 py-2 rounded"
+              className="bg-red-600 text-white px-5 py-2 rounded-lg hover:bg-red-700 transition"
             >
               Delete
             </button>
 
             <button
               onClick={handleStatus}
-              className="bg-green-600 text-white px-3 py-2 rounded"
+              className="bg-green-600 text-white px-5 py-2 rounded-lg hover:bg-green-700 transition"
             >
               Toggle Status
             </button>
