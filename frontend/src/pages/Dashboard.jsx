@@ -19,9 +19,11 @@ const Dashboard = () => {
     const loadTasks = async () => {
       try {
         const tasks = await getTasksAPI(token);
+
         dispatch(setTasks(tasks));
       } catch (error) {
         console.error(error);
+
         toast.error("Failed to load tasks");
       }
     };
@@ -32,21 +34,37 @@ const Dashboard = () => {
   }, [dispatch, token]);
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <div className="max-w-5xl mx-auto p-6">
-        <h1 className="text-3xl font-bold text-center mb-8">Task Dashboard</h1>
+    <div className="min-h-screen bg-slate-100">
+      {/* Header */}
 
-        {/* Create Task */}
-        <TaskForm />
+      {/* Main Content */}
 
-        {/* Search */}
-        <SearchBar />
+      <div className="max-w-6xl mx-auto px-6 py-10">
+        {/* Create Task Section */}
 
-        {/* Filter */}
-        <FilterBar />
+        <div className=" mb-8">
+          <TaskForm />
+        </div>
 
-        {/* Task List */}
-        <TaskList />
+        {/* Search and Filter Section */}
+
+        <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 mb-8">
+          <h2 className="text-xl font-semibold text-blue-950 mb-4">
+            Search & Filter Tasks
+          </h2>
+
+          <div className="mb-5">
+            <SearchBar />
+          </div>
+
+          <FilterBar />
+        </div>
+
+        {/* Task List Section */}
+
+        <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
+          <TaskList />
+        </div>
       </div>
     </div>
   );
